@@ -1,4 +1,6 @@
-package org.mattyb.checkmate;
+package org.mattyb.checkmate.checker;
+
+import org.mattyb.checkmate.Range;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -9,7 +11,7 @@ public class Checkers {
         // empty on purpose
     }
 
-    static Checker<Object> notNull = new Checker<Object>() {
+    public static Checker<Object> notNull = new Checker<Object>() {
         @Override
         public boolean test(Object object) {
             return Objects.isNull(object);
@@ -21,19 +23,7 @@ public class Checkers {
         }
     };
 
-    static Checker<Collection<?>> notEmptyCollection = new Checker<Collection<?>>() {
-        @Override
-        public boolean test(Collection<?> coll) {
-            return coll != null && coll.isEmpty();
-        }
-
-        @Override
-        public String getExceptionMessage(Collection<?> coll) {
-            return "The validated collection is empty";
-        }
-    };
-
-    static Checker<Range<Integer>> intOutOfRange = new Checker<Range<Integer>>() {
+    public static Checker<Range<Integer>> intOutOfRange = new Checker<Range<Integer>>() {
         @Override
         public boolean test(Range<Integer> range) {
             final Comparable<Integer> val = range.getValue();

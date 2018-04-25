@@ -1,4 +1,4 @@
-package org.mattyb.checkmate;
+package org.mattyb.checkmate.checker;
 
 public interface Checker<T> {
 

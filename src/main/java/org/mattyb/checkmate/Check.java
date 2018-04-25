@@ -1,5 +1,7 @@
 package org.mattyb.checkmate;
 
+import org.mattyb.checkmate.checker.Checker;
+
 class Check<T> {
 
     private final Checker checker;
