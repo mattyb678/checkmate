@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.is;
 class CheckersTest {
 
     @Test
-    public void test() {
+    void test() {
         assertThat(true, is(true));
     }
 }
