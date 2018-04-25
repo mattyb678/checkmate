@@ -1,7 +1,6 @@
 package org.mattyb.checkmate.checker;
 
 import java.util.Collection;
-import java.util.stream.Stream;
 
 public class NotEmptyCheckers {
 
