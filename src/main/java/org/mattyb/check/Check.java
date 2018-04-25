@@ -30,7 +30,7 @@ public class Check implements IntRangeCheck {
         }
     }
 
-    public Check thenThrow(final Class<? extends RuntimeException> throwableClass) {
+    public Check withException(final Class<? extends RuntimeException> throwableClass) {
         checks.get(checks.size() - 1).setThrowableClass(throwableClass);
         return this;
     }
