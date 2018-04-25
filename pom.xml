@@ -4,6 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.mattyb.checkmate</groupId>
+    <artifactId>check-core</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
     <properties>
         <junit.version>4.12</junit.version>
         <junit.jupiter.version>5.1.1</junit.jupiter.version>
@@ -37,9 +41,6 @@
         </dependency>
     </dependencies>
 
-    <groupId>org.mattyb.check</groupId>
-    <artifactId>check-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
             <plugin>

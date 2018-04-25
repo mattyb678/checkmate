@@ -1,4 +1,4 @@
-package org.mattyb.check;
+package org.mattyb.checkmate;
 
 public interface IntRangeCheck {
 
@@ -6,7 +6,7 @@ public interface IntRangeCheck {
 
     IntRangeCheck between(Integer start);
 
-    Check and(Integer endExclusive);
+    CheckMate and(Integer endExclusive);
 
-    Check inclusive();
+    CheckMate inclusive();
 }

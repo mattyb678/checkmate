@@ -1,4 +1,4 @@
-package org.mattyb.check;
+package org.mattyb.checkmate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,17 +9,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class Check implements IntRangeCheck {
+public class CheckMate implements IntRangeCheck {
 
-    private static final Logger log = LoggerFactory.getLogger(Check.class);
+    private static final Logger log = LoggerFactory.getLogger(CheckMate.class);
     private final List<CheckInfo<?>> checks;
 
-    private Check() {
+    private CheckMate() {
         checks = new ArrayList<>();
     }
 
-    public static Check check() {
-        return new Check();
+    public static CheckMate check() {
+        return new CheckMate();
     }
 
     @SuppressWarnings("unchecked")
@@ -34,23 +34,23 @@ public class Check implements IntRangeCheck {
         }
     }
 
-    public Check withException(final Class<? extends RuntimeException> throwableClass) {
+    public CheckMate withException(final Class<? extends RuntimeException> throwableClass) {
         checks.get(checks.size() - 1).setThrowableClass(throwableClass);
         return this;
     }
 
-    public Check withMessage(final String message, final Object... values) {
+    public CheckMate withMessage(final String message, final Object... values) {
         final String formatted = String.format(message, values);
         checks.get(checks.size() - 1).setMessage(formatted);
         return  this;
     }
 
-    public <T> Check notNull(final T object) {
+    public <T> CheckMate notNull(final T object) {
         checks.add(new CheckInfo<>(object, Checkers.notNull));
         return this;
     }
 
-    public <T extends Collection<?>> Check notEmpty(final T collection) {
+    public <T extends Collection<?>> CheckMate notEmpty(final T collection) {
         checks.add(new CheckInfo<>(collection, Checkers.notEmptyCollection));
         return this;
     }
@@ -72,13 +72,13 @@ public class Check implements IntRangeCheck {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Check and(Integer endExclusive) {
+    public CheckMate and(Integer endExclusive) {
         ((Range<Integer>) checks.get(checks.size() - 1).getToCheck()).setEnd(endExclusive);
         return this;
     }
 
     @Override
-    public Check inclusive() {
+    public CheckMate inclusive() {
         final Object object = checks.get(checks.size() - 1).getToCheck();
         if (!(object instanceof Range)) {
             log.error("Object {} is not a Range", object);
