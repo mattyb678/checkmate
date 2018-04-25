@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class Check {
+public class Check implements IntRangeCheck {
 
     private final List<CheckPair<?>> checks;
 
@@ -23,7 +23,7 @@ public class Check {
         for (CheckPair<?> check : checks) {
             if (check.getChecker().test(check.getToCheck())) {
                 final String message = check.getMessage() == null ?
-                        check.getChecker().getExceptionMessage() :
+                        check.getChecker().getExceptionMessage(check.getToCheck()) :
                         check.getMessage();
                 throw Objects.requireNonNull(create(check.getThrowableClass(), message));
             }
@@ -48,6 +48,37 @@ public class Check {
 
     public <T extends Collection<?>> Check notEmpty(final T collection) {
         checks.add(new CheckPair<>(collection, Checkers.notEmptyCollection));
+        return this;
+    }
+
+    @Override
+    public IntRangeCheck value(Comparable<Integer> value) {
+        final Range<Integer> range = new Range<>();
+        range.setValue(value);
+        checks.add(new CheckPair<>(range, Checkers.intOutOfRange));
+        return this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public IntRangeCheck between(Integer start) {
+        ((Range<Integer>) checks.get(checks.size() - 1).getToCheck()).setStart(start);
+        return this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Check and(Integer endExclusive) {
+        ((Range<Integer>) checks.get(checks.size() - 1).getToCheck()).setEnd(endExclusive);
+        return this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Check andInclusive(Integer endInclusive) {
+        final Range<Integer> range = ((Range<Integer>) checks.get(checks.size() - 1).getToCheck());
+        range.setEnd(endInclusive);
+        range.setInclusive(true);
         return this;
     }
 
