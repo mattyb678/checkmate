@@ -55,6 +55,9 @@ public class CheckMate implements IntRangeCheckMate {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IntRangeCheckMate value(Comparable<Integer> value) {
         final Range<Integer> range = new Range<>();
@@ -63,6 +66,9 @@ public class CheckMate implements IntRangeCheckMate {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public IntRangeCheckMate between(Integer start) {
@@ -70,6 +76,9 @@ public class CheckMate implements IntRangeCheckMate {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public CheckMate and(Integer endExclusive) {
@@ -77,6 +86,9 @@ public class CheckMate implements IntRangeCheckMate {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CheckMate inclusive() {
         final Object object = checks.get(checks.size() - 1).getToCheck();
