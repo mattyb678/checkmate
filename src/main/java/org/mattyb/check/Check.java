@@ -78,10 +78,13 @@ public class Check implements IntRangeCheck {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Check inclusive() {
-        final Range<Integer> range = ((Range<Integer>) checks.get(checks.size() - 1).getToCheck());
-        range.setInclusive(true);
+        final Object object = checks.get(checks.size() - 1).getToCheck();
+        if (!(object instanceof Range)) {
+            log.error("Object {} is not a Range", object);
+            return this;
+        }
+        ((Range) object).setInclusive(true);
         return this;
     }
 
