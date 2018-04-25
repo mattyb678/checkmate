@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Check implements IntRangeCheck {
 
     private static final Logger log = LoggerFactory.getLogger(Check.class);
-    private final List<CheckPair<?>> checks;
+    private final List<CheckInfo<?>> checks;
 
     private Check() {
         checks = new ArrayList<>();
@@ -24,7 +24,7 @@ public class Check implements IntRangeCheck {
 
     @SuppressWarnings("unchecked")
     public void verify() {
-        for (CheckPair<?> check : checks) {
+        for (CheckInfo<?> check : checks) {
             if (check.getChecker().test(check.getToCheck())) {
                 final String message = check.getMessage() == null ?
                         check.getChecker().getExceptionMessage(check.getToCheck()) :
@@ -46,12 +46,12 @@ public class Check implements IntRangeCheck {
     }
 
     public <T> Check notNull(final T object) {
-        checks.add(new CheckPair<>(object, Checkers.notNull));
+        checks.add(new CheckInfo<>(object, Checkers.notNull));
         return this;
     }
 
     public <T extends Collection<?>> Check notEmpty(final T collection) {
-        checks.add(new CheckPair<>(collection, Checkers.notEmptyCollection));
+        checks.add(new CheckInfo<>(collection, Checkers.notEmptyCollection));
         return this;
     }
 
@@ -59,7 +59,7 @@ public class Check implements IntRangeCheck {
     public IntRangeCheck value(Comparable<Integer> value) {
         final Range<Integer> range = new Range<>();
         range.setValue(value);
-        checks.add(new CheckPair<>(range, Checkers.intOutOfRange));
+        checks.add(new CheckInfo<>(range, Checkers.intOutOfRange));
         return this;
     }
 

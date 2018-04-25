@@ -1,13 +1,13 @@
 package org.mattyb.check;
 
-class CheckPair<T> {
+class CheckInfo<T> {
 
     private final Checker checker;
     private final T toCheck;
     private Class<? extends RuntimeException> throwableClass;
     private String message;
 
-    CheckPair(final T toCheck, final Checker checker) {
+    CheckInfo(final T toCheck, final Checker checker) {
         this.checker = checker;
         this.toCheck = toCheck;
         this.throwableClass = IllegalArgumentException.class;
