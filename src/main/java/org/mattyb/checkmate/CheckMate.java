@@ -9,10 +9,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class CheckMate implements IntRangeCheck {
+public class CheckMate implements IntRangeCheckMate {
 
     private static final Logger log = LoggerFactory.getLogger(CheckMate.class);
-    private final List<CheckInfo<?>> checks;
+    private final List<Check<?>> checks;
 
     private CheckMate() {
         checks = new ArrayList<>();
@@ -23,8 +23,8 @@ public class CheckMate implements IntRangeCheck {
     }
 
     @SuppressWarnings("unchecked")
-    public void verify() {
-        for (CheckInfo<?> check : checks) {
+    public void validate() {
+        for (Check<?> check : checks) {
             if (check.getChecker().test(check.getToCheck())) {
                 final String message = check.getMessage() == null ?
                         check.getChecker().getExceptionMessage(check.getToCheck()) :
@@ -46,26 +46,26 @@ public class CheckMate implements IntRangeCheck {
     }
 
     public <T> CheckMate notNull(final T object) {
-        checks.add(new CheckInfo<>(object, Checkers.notNull));
+        checks.add(new Check<>(object, Checkers.notNull));
         return this;
     }
 
     public <T extends Collection<?>> CheckMate notEmpty(final T collection) {
-        checks.add(new CheckInfo<>(collection, Checkers.notEmptyCollection));
+        checks.add(new Check<>(collection, Checkers.notEmptyCollection));
         return this;
     }
 
     @Override
-    public IntRangeCheck value(Comparable<Integer> value) {
+    public IntRangeCheckMate value(Comparable<Integer> value) {
         final Range<Integer> range = new Range<>();
         range.setValue(value);
-        checks.add(new CheckInfo<>(range, Checkers.intOutOfRange));
+        checks.add(new Check<>(range, Checkers.intOutOfRange));
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public IntRangeCheck between(Integer start) {
+    public IntRangeCheckMate between(Integer start) {
         ((Range<Integer>) checks.get(checks.size() - 1).getToCheck()).setStart(start);
         return this;
     }
