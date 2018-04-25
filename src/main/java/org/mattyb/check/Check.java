@@ -1,5 +1,8 @@
 package org.mattyb.check;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,6 +11,7 @@ import java.util.Objects;
 
 public class Check implements IntRangeCheck {
 
+    private static final Logger log = LoggerFactory.getLogger(Check.class);
     private final List<CheckPair<?>> checks;
 
     private Check() {
@@ -85,8 +89,9 @@ public class Check implements IntRangeCheck {
                                     final String message) {
         try {
             return throwableClass.getConstructor(String.class).newInstance(message);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
+                | InstantiationException e) {
+            log.error("Error instantiating exception", e);
         }
         return null;
     }
