@@ -8,5 +8,5 @@ public interface IntRangeCheck {
 
     Check and(Integer endExclusive);
 
-    Check andInclusive(Integer endInclusive);
+    Check inclusive();
 }

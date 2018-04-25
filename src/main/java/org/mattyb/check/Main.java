@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         final String test = "";
         Check.check()
-            .value(3).between(0).andInclusive(4)
+            .value(4).between(0).and(4).inclusive()
             .notNull(test).withMessage("I've changed")
             .notEmpty(Collections.singletonList("yoyo"))
             .verify();

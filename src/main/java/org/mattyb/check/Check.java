@@ -75,9 +75,8 @@ public class Check implements IntRangeCheck {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Check andInclusive(Integer endInclusive) {
+    public Check inclusive() {
         final Range<Integer> range = ((Range<Integer>) checks.get(checks.size() - 1).getToCheck());
-        range.setEnd(endInclusive);
         range.setInclusive(true);
         return this;
     }
