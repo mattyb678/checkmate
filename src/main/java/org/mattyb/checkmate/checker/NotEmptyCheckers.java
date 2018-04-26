@@ -39,4 +39,22 @@ public class NotEmptyCheckers {
             return "The validated character sequence is empty";
         }
     };
+
+    public static Checker<Object[]> array = new Checker<Object[]>() {
+        @Override
+        public boolean test(Object[] array) {
+            if (array == null) {
+                return true;
+            }
+            if (array.length == 0) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public String getExceptionMessage(Object[] object) {
+            return null;
+        }
+    };
 }
