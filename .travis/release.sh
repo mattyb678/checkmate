@@ -16,7 +16,7 @@ then
     echo "Creating gpg key"
     source .travis/gpg.sh
 
-    mvn -B rorg.codehaus.mojo:versions-maven-plugin:2.5:set -DnewVersion=$TRAVIS_TAG
+    mvn -B org.codehaus.mojo:versions-maven-plugin:2.5:set -DnewVersion=$TRAVIS_TAG
 
     mvn -B deploy --settings .travis/settings.xml -DskipTests=true --update-snapshots -Prelease
 
