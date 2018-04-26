@@ -4,6 +4,10 @@ cache:
   directories:
   - "$HOME/.m2"
 
+install:
+  - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+  - git fetch --unshallow --tags
+
 script: mvn --settings .travis/settings.xml clean deploy
 
 after_success:
