@@ -54,7 +54,7 @@ public class NotEmptyCheckers {
 
         @Override
         public String getExceptionMessage(Object[] object) {
-            return null;
+            return "The validated array is empty";
         }
     };
 }

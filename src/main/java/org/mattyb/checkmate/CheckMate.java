@@ -67,6 +67,12 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate {
         return this;
     }
 
+    @Override
+    public <T> CheckMate notEmpty(T[] array) {
+        checks.add(new Check<>(array, NotEmptyCheckers.array));
+        return this;
+    }
+
     /**
      * {@inheritDoc}
      */
