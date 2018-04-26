@@ -9,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate {
 
@@ -70,6 +67,12 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate {
     @Override
     public <T> CheckMate notEmpty(T[] array) {
         checks.add(new Check<>(array, NotEmptyCheckers.array));
+        return this;
+    }
+
+    @Override
+    public <T extends Map<?, ?>> CheckMate notEmpty(T map) {
+        checks.add(new Check<>(map, NotEmptyCheckers.map));
         return this;
     }
 

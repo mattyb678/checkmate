@@ -1,6 +1,7 @@
 package org.mattyb.checkmate.checker;
 
 import java.util.Collection;
+import java.util.Map;
 
 public class NotEmptyCheckers {
 
@@ -55,6 +56,24 @@ public class NotEmptyCheckers {
         @Override
         public String getExceptionMessage(Object[] object) {
             return "The validated array is empty";
+        }
+    };
+
+    public static Checker<Map<?, ?>> map = new Checker<Map<?, ?>>() {
+        @Override
+        public boolean test(Map<?, ?> map) {
+            if (map == null) {
+                return true;
+            }
+            if (map.isEmpty()) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public String getExceptionMessage(Map<?, ?> map) {
+            return "The validated map is empty";
         }
     };
 }

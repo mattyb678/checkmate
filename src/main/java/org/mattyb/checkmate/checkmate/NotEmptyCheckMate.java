@@ -3,6 +3,7 @@ package org.mattyb.checkmate.checkmate;
 import org.mattyb.checkmate.CheckMate;
 
 import java.util.Collection;
+import java.util.Map;
 
 public interface NotEmptyCheckMate {
 
@@ -11,4 +12,6 @@ public interface NotEmptyCheckMate {
     <T extends CharSequence> CheckMate notEmpty(final T chars);
 
     <T> CheckMate notEmpty(final T[] array);
+
+    <T extends Map<?, ?>> CheckMate notEmpty(final T map);
 }
