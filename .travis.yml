@@ -4,5 +4,16 @@ cache:
   directories:
   - "$HOME/.m2"
 
+script: mvn --settings .travis/settings.xml clean deploy
+
 after_success:
   - mvn jacoco:report coveralls:report
+
+deploy:
+  -
+    provider: script
+    script: .travis/release.sh
+    skip_cleanup: true
+    on:
+      repo: mattyb678/checkmate
+      tags: true
