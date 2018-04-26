@@ -60,4 +60,57 @@ class CheckMateTest {
                 .anyInvalid();
         assertThat(anyInvalid, is(true));
     }
+
+    @Test
+    public void testAllInvalid_NoChecks() {
+        boolean allInvalid = CheckMate.check().allInvalid();
+        assertThat(allInvalid, is(true));
+    }
+
+    @Test
+    public void testAllInvalid_SingleValid() {
+        boolean allInvalid = CheckMate.check()
+                .notEmpty("Not Empty")
+                .allInvalid();
+        assertThat(allInvalid, is(false));
+    }
+
+    @Test
+    public void testAllInvalid_SingleInvalid() {
+        boolean allInvalid = CheckMate.check()
+                .notEmpty("")
+                .allInvalid();
+        assertThat(allInvalid, is(true));
+    }
+
+    @Test
+    public void testAllInvalid_MultipleValid() {
+        boolean allInvalid = CheckMate.check()
+                .notEmpty("Not Empty")
+                .value(7).between(0).and(10).inclusive()
+                .notEmpty(Collections.singletonMap("hello", "world"))
+                .allInvalid();
+        assertThat(allInvalid, is(false));
+    }
+
+    @Test
+    public void testAllInvalid_MultipleInvalid() {
+        boolean allInvalid = CheckMate.check()
+                .notEmpty("")
+                .notEmpty(Collections.emptyMap())
+                .value(-7).between(0).and(10).inclusive()
+                .allInvalid();
+        assertThat(allInvalid, is(true));
+    }
+
+    @Test
+    public void testAllInvalid_Mix() {
+        boolean allInvalid = CheckMate.check()
+                .notEmpty("")
+                .notEmpty(Collections.emptyMap())
+                .notEmpty("Not Empty")
+                .value(-7).between(0).and(10).inclusive()
+                .allInvalid();
+        assertThat(allInvalid, is(false));
+    }
 }
