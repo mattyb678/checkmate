@@ -1,6 +1,6 @@
-package org.mattyb.checkmate;
+package xyz.mattyb.checkmate;
 
-import org.mattyb.checkmate.checker.Checker;
+import xyz.mattyb.checkmate.checker.Checker;
 
 class Check<T> {
 

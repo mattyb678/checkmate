@@ -1,4 +1,4 @@
-package org.mattyb.checkmate;
+package xyz.mattyb.checkmate;
 
 public class SomeAppSpecificException extends RuntimeException {
 

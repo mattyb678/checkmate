@@ -1,4 +1,4 @@
-package org.mattyb.checkmate;
+package xyz.mattyb.checkmate;
 
 public class Range<T extends Number> {
 

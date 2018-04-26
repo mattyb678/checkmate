@@ -1,6 +1,6 @@
-package org.mattyb.checkmate.checkmate;
+package xyz.mattyb.checkmate.checkmate;
 
-import org.mattyb.checkmate.CheckMate;
+import xyz.mattyb.checkmate.CheckMate;
 
 public interface IntRangeCheckMate {
 

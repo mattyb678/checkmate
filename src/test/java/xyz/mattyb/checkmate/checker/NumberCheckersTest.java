@@ -1,7 +1,7 @@
-package org.mattyb.checkmate.checker;
+package xyz.mattyb.checkmate.checker;
 
 import org.junit.jupiter.api.Test;
-import org.mattyb.checkmate.Range;
+import xyz.mattyb.checkmate.Range;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

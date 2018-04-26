@@ -1,6 +1,6 @@
-package org.mattyb.checkmate.checker;
+package xyz.mattyb.checkmate.checker;
 
-import org.mattyb.checkmate.Range;
+import xyz.mattyb.checkmate.Range;
 
 public class NumberCheckers {
 

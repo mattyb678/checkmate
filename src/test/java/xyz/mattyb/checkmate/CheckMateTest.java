@@ -1,4 +1,4 @@
-package org.mattyb.checkmate;
+package xyz.mattyb.checkmate;
 
 import org.junit.jupiter.api.Test;
 

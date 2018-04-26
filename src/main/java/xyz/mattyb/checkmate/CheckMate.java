@@ -1,10 +1,10 @@
-package org.mattyb.checkmate;
+package xyz.mattyb.checkmate;
 
-import org.mattyb.checkmate.checker.Checkers;
-import org.mattyb.checkmate.checker.NotEmptyCheckers;
-import org.mattyb.checkmate.checker.NumberCheckers;
-import org.mattyb.checkmate.checkmate.IntRangeCheckMate;
-import org.mattyb.checkmate.checkmate.NotEmptyCheckMate;
+import xyz.mattyb.checkmate.checker.Checkers;
+import xyz.mattyb.checkmate.checker.NotEmptyCheckers;
+import xyz.mattyb.checkmate.checker.NumberCheckers;
+import xyz.mattyb.checkmate.checkmate.IntRangeCheckMate;
+import xyz.mattyb.checkmate.checkmate.NotEmptyCheckMate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
