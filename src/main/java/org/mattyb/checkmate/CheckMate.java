@@ -2,6 +2,7 @@ package org.mattyb.checkmate;
 
 import org.mattyb.checkmate.checker.Checkers;
 import org.mattyb.checkmate.checker.NotEmptyCheckers;
+import org.mattyb.checkmate.checker.NumberCheckers;
 import org.mattyb.checkmate.checkmate.IntRangeCheckMate;
 import org.mattyb.checkmate.checkmate.NotEmptyCheckMate;
 import org.slf4j.Logger;
@@ -73,7 +74,7 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate {
     public IntRangeCheckMate value(Comparable<Integer> value) {
         final Range<Integer> range = new Range<>();
         range.setValue(value);
-        checks.add(new Check<>(range, Checkers.intOutOfRange));
+        checks.add(new Check<>(range, NumberCheckers.intOutOfRange));
         return this;
     }
 
