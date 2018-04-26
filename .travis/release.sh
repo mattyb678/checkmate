@@ -4,11 +4,11 @@ set -e
 
 if [ ! -z "$TRAVIS_TAG" ]
 then
-    echo "Fixing git setup for $TRAVIS_BRANCH"
-    git checkout ${TRAVIS_BRANCH}
-    git branch -u origin/${TRAVIS_BRANCH}
-    git config branch.${TRAVIS_BRANCH}.remote origin
-    git config branch.${TRAVIS_BRANCH}.merge refs/heads/${TRAVIS_BRANCH}
+    echo "Fixing git setup for master"
+    git checkout master
+    git branch -u origin/master
+    git config branch.master.remote origin
+    git config branch.master.merge refs/heads/master
 
     echo "on a tag -> set pom.xml <version> to $TRAVIS_TAG"
     if [ ! -z "$TRAVIS" -a -f "$HOME/.gnupg" ]; then
