@@ -5,6 +5,10 @@ set -e
 if [ ! -z "$TRAVIS_TAG" ]
 then
 
+    echo "fix git issue"
+    git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+    git fetch --unshallow --tags
+
     echo "on a tag -> set pom.xml <version> to $TRAVIS_TAG"
     if [ ! -z "$TRAVIS" -a -f "$HOME/.gnupg" ]; then
         echo "Removing gpg dir"
