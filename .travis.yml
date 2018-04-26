@@ -4,9 +4,10 @@ cache:
   directories:
   - "$HOME/.m2"
 
-install:
-  - git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-  - git fetch --unshallow --tags
+env:
+    global:
+        # get all the branches referencing this commit
+        - REAL_BRANCH=$(git ls-remote origin | sed -n "\|$TRAVIS_COMMIT\s\+refs/heads/|{s///p}")
 
 script: mvn --settings .travis/settings.xml clean deploy
 

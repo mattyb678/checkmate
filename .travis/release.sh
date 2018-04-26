@@ -4,6 +4,7 @@ set -e
 
 if [ ! -z "$TRAVIS_TAG" ]
 then
+    echo "REAL branch $REAL_BRANCH"
 
     echo "on a tag -> set pom.xml <version> to $TRAVIS_TAG"
     if [ ! -z "$TRAVIS" -a -f "$HOME/.gnupg" ]; then
@@ -15,9 +16,9 @@ then
     echo "Creating gpg key"
     source .travis/gpg.sh
 
-    mvn -B --settings .travis/settings.xml -Prelease release:prepare -DreleaseVersion=$TRAVIS_TAG -DskipTests=true
+    mvn -B rorg.codehaus.mojo:versions-maven-plugin:2.5:set -DnewVersion=$TRAVIS_TAG
 
-    mvn -B --settings .travis/settings.xml -Prelease release:perform -DskipTests=true
+    mvn -B deploy --settings .travis/settings.xml -DskipTests=true --update-snapshots -Prelease
 
 
     if [ ! -z "$TRAVIS" ]; then
