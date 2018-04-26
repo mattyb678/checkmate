@@ -27,12 +27,7 @@ public class NotEmptyCheckers {
             if (chars == null || chars.length() == 0) {
                 return true;
             }
-            for (int i = 0; i < chars.length(); i++) {
-                if (!Character.isWhitespace(chars.charAt(i))) {
-                    return false;
-                }
-            }
-            return true;
+            return false;
         }
 
         @Override

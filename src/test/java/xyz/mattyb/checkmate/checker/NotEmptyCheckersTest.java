@@ -42,7 +42,7 @@ class NotEmptyCheckersTest {
 
     @Test
     public void testCharSequence_Blank() {
-        MatcherAssert.assertThat(NotEmptyCheckers.charSequence.test("        "), is(true));
+        MatcherAssert.assertThat(NotEmptyCheckers.charSequence.test("        "), is(false));
     }
 
     @Test
