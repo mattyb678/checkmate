@@ -36,6 +36,11 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public boolean anyInvalid() {
+        return checks.stream().anyMatch(check -> check.getChecker().test(check.getToCheck()));
+    }
+
     public CheckMate withException(final Class<? extends RuntimeException> throwableClass) {
         checks.get(checks.size() - 1).setThrowableClass(throwableClass);
         return this;
