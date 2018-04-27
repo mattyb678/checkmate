@@ -76,6 +76,12 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
     }
 
     @Override
+    public <T extends CharSequence> CheckMate notBlank(T chars) {
+        checks.add(new Check<>(chars, NotEmptyCheckers.charSequenceNotBlank));
+        return this;
+    }
+
+    @Override
     public <T> CheckMate notEmpty(T[] array) {
         checks.add(new Check<>(array, NotEmptyCheckers.array));
         return this;

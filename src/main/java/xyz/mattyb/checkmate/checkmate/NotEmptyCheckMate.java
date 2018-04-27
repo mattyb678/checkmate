@@ -11,6 +11,8 @@ public interface NotEmptyCheckMate {
 
     <T extends CharSequence> CheckMate notEmpty(final T chars);
 
+    <T extends CharSequence> CheckMate notBlank(final T chars);
+
     <T> CheckMate notEmpty(final T[] array);
 
     <T extends Map<?, ?>> CheckMate notEmpty(final T map);

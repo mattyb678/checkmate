@@ -32,21 +32,25 @@ class NotEmptyCheckersTest {
     @Test
     public void testCharSequence_Null() {
         assertThat(NotEmptyCheckers.charSequence.test(null), is(true));
+        assertThat(NotEmptyCheckers.charSequenceNotBlank.test(null), is(true));
     }
 
     @Test
     public void testCharSequence_Empty() {
         assertThat(NotEmptyCheckers.charSequence.test(""), is(true));
+        assertThat(NotEmptyCheckers.charSequenceNotBlank.test(""), is(true));
     }
 
     @Test
     public void testCharSequence_Blank() {
         assertThat(NotEmptyCheckers.charSequence.test("        "), is(false));
+        assertThat(NotEmptyCheckers.charSequenceNotBlank.test("        "), is(true));
     }
 
     @Test
     public void testCharSequence_NotBlank() {
         assertThat(NotEmptyCheckers.charSequence.test("matt"), is(false));
+        assertThat(NotEmptyCheckers.charSequenceNotBlank.test("matt"), is(false));
     }
 
     @Test

@@ -36,6 +36,26 @@ public class NotEmptyCheckers {
         }
     };
 
+    public static Checker<CharSequence> charSequenceNotBlank = new Checker<CharSequence>() {
+        @Override
+        public boolean test(CharSequence chars) {
+            if (chars == null || chars.length() == 0) {
+                return true;
+            }
+            for (int i = 0; i < chars.length(); i++) {
+                if (!Character.isWhitespace(chars.charAt(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        @Override
+        public String getExceptionMessage(CharSequence object) {
+            return null;
+        }
+    };
+
     public static Checker<Object[]> array = new Checker<Object[]>() {
         @Override
         public boolean test(Object[] array) {
