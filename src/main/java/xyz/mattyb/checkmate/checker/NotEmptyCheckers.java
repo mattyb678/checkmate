@@ -52,7 +52,7 @@ public class NotEmptyCheckers {
 
         @Override
         public String getExceptionMessage(CharSequence object) {
-            return null;
+            return "The validated character sequence is blank";
         }
     };
 

@@ -55,7 +55,8 @@ class NotEmptyCheckersTest {
 
     @Test
     public void testCharSequence_Message() {
-        assertThat(NotEmptyCheckers.charSequence.getExceptionMessage("matt"), is("The validated character sequence is empty"));
+        assertThat(NotEmptyCheckers.charSequence.getExceptionMessage(""), is("The validated character sequence is empty"));
+        assertThat(NotEmptyCheckers.charSequenceNotBlank.getExceptionMessage("   "), is("The validated character sequence is blank"));
     }
 
     @Test
