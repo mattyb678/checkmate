@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class CheckMateTest {
 
@@ -36,7 +38,7 @@ class CheckMateTest {
         boolean anyInvalid = CheckMate.check()
                 .notEmpty("Valid")
                 .notEmpty(Collections.singletonMap("hello", "world"))
-                .value(7).between(0).and(10).inclusive()
+                .intValue(7).between(0).and(10).inclusive()
                 .anyInvalid();
         assertThat(anyInvalid, is(false));
     }
@@ -46,7 +48,7 @@ class CheckMateTest {
         boolean anyInvalid = CheckMate.check()
                 .notEmpty(Collections.singletonMap("hello", "world"))
                 .notEmpty("")
-                .value(7).between(0).and(10).inclusive()
+                .intValue(7).between(0).and(10).inclusive()
                 .anyInvalid();
         assertThat(anyInvalid, is(true));
     }
@@ -56,7 +58,7 @@ class CheckMateTest {
         boolean anyInvalid = CheckMate.check()
                 .notEmpty(Collections.emptyMap())
                 .notEmpty("")
-                .value(-7).between(0).and(10).inclusive()
+                .intValue(-7).between(0).and(10).inclusive()
                 .anyInvalid();
         assertThat(anyInvalid, is(true));
     }
@@ -87,7 +89,7 @@ class CheckMateTest {
     public void testAllInvalid_MultipleValid() {
         boolean allInvalid = CheckMate.check()
                 .notEmpty("Not Empty")
-                .value(7).between(0).and(10).inclusive()
+                .intValue(7).between(0).and(10).inclusive()
                 .notEmpty(Collections.singletonMap("hello", "world"))
                 .allInvalid();
         assertThat(allInvalid, is(false));
@@ -98,7 +100,7 @@ class CheckMateTest {
         boolean allInvalid = CheckMate.check()
                 .notEmpty("")
                 .notEmpty(Collections.emptyMap())
-                .value(-7).between(0).and(10).inclusive()
+                .intValue(-7).between(0).and(10).inclusive()
                 .allInvalid();
         assertThat(allInvalid, is(true));
     }
@@ -109,8 +111,28 @@ class CheckMateTest {
                 .notEmpty("")
                 .notEmpty(Collections.emptyMap())
                 .notEmpty("Not Empty")
-                .value(-7).between(0).and(10).inclusive()
+                .intValue(-7).between(0).and(10).inclusive()
                 .allInvalid();
         assertThat(allInvalid, is(false));
+    }
+
+    @Test
+    public void testIntRange() {
+        CheckMate.check()
+                .intValue(7).between(5).and(100)
+                .validate();
+    }
+
+    @Test
+    public void testIntRange_OutOfRange() {
+        try {
+            CheckMate.check()
+                    .intValue(2).between(5).and(100)
+                    .validate();
+            fail("Should never get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(IllegalArgumentException.class))));
+            assertThat(ex.getMessage(), is("2 is not between 5 and 100, exclusive"));
+        }
     }
 }

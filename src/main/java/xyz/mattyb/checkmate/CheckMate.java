@@ -4,6 +4,7 @@ import xyz.mattyb.checkmate.checker.Checkers;
 import xyz.mattyb.checkmate.checker.NotEmptyCheckers;
 import xyz.mattyb.checkmate.checker.NumberCheckers;
 import xyz.mattyb.checkmate.checkmate.IntRangeCheckMate;
+import xyz.mattyb.checkmate.checkmate.LongRangeCheckMate;
 import xyz.mattyb.checkmate.checkmate.NotEmptyCheckMate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate {
+public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRangeCheckMate {
 
     private static final Logger log = LoggerFactory.getLogger(CheckMate.class);
     private final List<Check<?>> checks;
@@ -90,7 +91,7 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate {
      * {@inheritDoc}
      */
     @Override
-    public IntRangeCheckMate value(Comparable<Integer> value) {
+    public IntRangeCheckMate intValue(Comparable<Integer> value) {
         final Range<Integer> range = new Range<>();
         range.setValue(value);
         checks.add(new Check<>(range, NumberCheckers.intOutOfRange));
@@ -117,10 +118,28 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate {
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
+    public LongRangeCheckMate longValue(Comparable<Long> value) {
+        final Range<Long> range = new Range<>();
+        range.setValue(value);
+        checks.add(new Check<>(range, NumberCheckers.longOutOfRange));
+        return this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public LongRangeCheckMate between(Long start) {
+        ((Range<Long>) checks.get(checks.size() - 1).getToCheck()).setStart(start);
+        return null;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public CheckMate and(Long endExclusive) {
+        ((Range<Long>) checks.get(checks.size() - 1).getToCheck()).setEnd(endExclusive);
+        return null;
+    }
+
     public CheckMate inclusive() {
         final Object object = checks.get(checks.size() - 1).getToCheck();
         if (!(object instanceof Range)) {

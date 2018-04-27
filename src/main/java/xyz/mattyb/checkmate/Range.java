@@ -7,6 +7,16 @@ public class Range<T extends Number> {
     private T end;
     private boolean inclusive = false;
 
+    public Range() {
+        // Default constructor
+    }
+
+    public Range(Comparable<T> value, T start, T end) {
+        this.value = value;
+        this.start = start;
+        this.end = end;
+    }
+
     public Comparable<T> getValue() {
         return value;
     }

@@ -5,12 +5,12 @@ import xyz.mattyb.checkmate.CheckMate;
 public interface IntRangeCheckMate {
 
     /**
-     * The value to compare.
+     * The intValue to compare.
      *
      * @param value a {@link Comparable} of an {@link Integer}.
      * @return An instance of {@link IntRangeCheckMate}.
      */
-    IntRangeCheckMate value(Comparable<Integer> value);
+    IntRangeCheckMate intValue(Comparable<Integer> value);
 
     /**
      * The start of the range check, inclusive.
@@ -27,11 +27,4 @@ public interface IntRangeCheckMate {
      * @return An instance of {@link CheckMate}.
      */
     CheckMate and(Integer endExclusive);
-
-    /**
-     * Used to make the end of the range inclusive.
-     *
-     * @return An instance of {@link CheckMate}.
-     */
-    CheckMate inclusive();
 }
