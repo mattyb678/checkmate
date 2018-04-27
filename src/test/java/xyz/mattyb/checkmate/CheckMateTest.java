@@ -7,6 +7,7 @@ import java.util.Collections;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class CheckMateTest {
@@ -180,5 +181,13 @@ class CheckMateTest {
             assertThat(ex, is((instanceOf(IllegalArgumentException.class))));
             assertThat(ex.getMessage(), is("2018 is not between 711 and 2000, inclusive"));
         }
+    }
+
+    @Test
+    public void testNoNullElementsArray() {
+        final String[] array = new String[]{"Hello", "Not", null, "fourth"};
+        assertThrows(IllegalArgumentException.class, () -> CheckMate.check()
+                .noNullElements(array)
+                .validate());
     }
 }

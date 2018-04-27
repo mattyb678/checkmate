@@ -1,6 +1,6 @@
 package xyz.mattyb.checkmate;
 
-import xyz.mattyb.checkmate.checker.Checkers;
+import xyz.mattyb.checkmate.checker.NullCheckers;
 import xyz.mattyb.checkmate.checker.NotEmptyCheckers;
 import xyz.mattyb.checkmate.checker.NumberCheckers;
 import xyz.mattyb.checkmate.checkmate.IntRangeCheckMate;
@@ -59,7 +59,7 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
     }
 
     public <T> CheckMate notNull(final T object) {
-        checks.add(new Check<>(object, Checkers.notNull));
+        checks.add(new Check<>(object, NullCheckers.notNull));
         return this;
     }
 
@@ -90,6 +90,11 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
     @Override
     public <T extends Map<?, ?>> CheckMate notEmpty(T map) {
         checks.add(new Check<>(map, NotEmptyCheckers.map));
+        return this;
+    }
+
+    public <T> CheckMate noNullElements(T[] array) {
+        checks.add(new Check<>(array, NullCheckers.noNullElementsArray));
         return this;
     }
 
