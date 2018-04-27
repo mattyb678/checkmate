@@ -98,6 +98,11 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
         return this;
     }
 
+    public <T extends Iterable<?>> CheckMate noNullElements(T collection) {
+        checks.add(new Check<>(collection, NullCheckers.noNullElementsIterable));
+        return this;
+    }
+
     /**
      * {@inheritDoc}
      */

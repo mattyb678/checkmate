@@ -3,7 +3,9 @@ package xyz.mattyb.checkmate;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.List;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -189,6 +191,12 @@ class CheckMateTest {
         assertThrows(IllegalArgumentException.class, () -> CheckMate.check()
                 .noNullElements(array)
                 .validate());
+    }
+
+    @Test
+    public void testNoNullElementsCollection() {
+        final List<String> coll = asList("One", null, "Two", "Three");
+        assertThrows(IllegalArgumentException.class, () -> CheckMate.check().noNullElements(coll).validate());
     }
 
     @Test
