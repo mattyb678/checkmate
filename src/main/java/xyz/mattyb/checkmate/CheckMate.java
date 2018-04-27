@@ -130,14 +130,14 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
     @SuppressWarnings("unchecked")
     public LongRangeCheckMate between(Long start) {
         ((Range<Long>) checks.get(checks.size() - 1).getToCheck()).setStart(start);
-        return null;
+        return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public CheckMate and(Long endExclusive) {
         ((Range<Long>) checks.get(checks.size() - 1).getToCheck()).setEnd(endExclusive);
-        return null;
+        return this;
     }
 
     public CheckMate inclusive() {

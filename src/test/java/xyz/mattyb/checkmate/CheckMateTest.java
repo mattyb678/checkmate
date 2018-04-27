@@ -12,6 +12,32 @@ import static org.junit.jupiter.api.Assertions.fail;
 class CheckMateTest {
 
     @Test
+    public void testWithException() {
+        try {
+            CheckMate.check()
+                    .notNull(null).withException(SomeAppSpecificException.class)
+                    .validate();
+            fail("Should not get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(SomeAppSpecificException.class))));
+            assertThat(ex.getMessage(), is("The validated object is null"));
+        }
+    }
+
+    @Test
+    public void testWithMessage() {
+        try {
+            CheckMate.check()
+                    .notNull(null).withMessage("Changed the message")
+                    .validate();
+            fail("Should not get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(IllegalArgumentException.class))));
+            assertThat(ex.getMessage(), is("Changed the message"));
+        }
+    }
+
+    @Test
     public void testAnyInvalid_NoChecks() {
         boolean anyInvalid = CheckMate.check().anyInvalid();
         assertThat(anyInvalid, is(false));
@@ -133,6 +159,26 @@ class CheckMateTest {
         } catch (Exception ex) {
             assertThat(ex, is((instanceOf(IllegalArgumentException.class))));
             assertThat(ex.getMessage(), is("2 is not between 5 and 100, exclusive"));
+        }
+    }
+
+    @Test
+    public void testLongRange() {
+        CheckMate.check()
+                .longValue(1776L).between(711L).and(2000L)
+                .validate();
+    }
+
+    @Test
+    public void testLongRange_OutOfRange() {
+        try {
+            CheckMate.check()
+                    .longValue(2018L).between(711L).and(2000L).inclusive()
+                    .validate();
+            fail("Should never get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(IllegalArgumentException.class))));
+            assertThat(ex.getMessage(), is("2018 is not between 711 and 2000, inclusive"));
         }
     }
 }
