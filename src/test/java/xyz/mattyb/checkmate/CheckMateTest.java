@@ -190,4 +190,33 @@ class CheckMateTest {
                 .noNullElements(array)
                 .validate());
     }
+
+    @Test
+    public void testNotEmptyArray_Empty() {
+        assertThrows(IllegalArgumentException.class, () -> CheckMate.check()
+                .notEmpty(new String[]{})
+                .validate());
+    }
+
+    @Test
+    public void testNotEmptyArray_NotEmpty() {
+        CheckMate.check()
+                .notEmpty(new String[]{"Hello", "World"})
+                .validate();
+    }
+
+    @Test
+    public void testNotBlank_Empty() {
+        assertThrows(IllegalArgumentException.class, () -> CheckMate.check().notBlank("").validate());
+    }
+
+    @Test
+    public void testNotBlank_Blank() {
+        assertThrows(IllegalArgumentException.class, () -> CheckMate.check().notBlank("        ").validate());
+    }
+
+    @Test
+    public void testNotBlank_NotBlank() {
+        CheckMate.check().notBlank("     not   ").validate();
+    }
 }
