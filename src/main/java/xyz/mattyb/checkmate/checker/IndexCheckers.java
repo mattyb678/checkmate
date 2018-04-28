@@ -1,6 +1,7 @@
 package xyz.mattyb.checkmate.checker;
 
 import xyz.mattyb.checkmate.Index;
+import xyz.mattyb.checkmate.checker.context.CheckerContext;
 
 public class IndexCheckers {
 
@@ -10,7 +11,7 @@ public class IndexCheckers {
 
     public static Checker<Index> indexChecker = new Checker<Index>() {
         @Override
-        public boolean test(Index index) {
+        public boolean test(Index index, CheckerContext ctx) {
             if (index == null || index.isNull()) {
                 return true;
             }
@@ -19,7 +20,7 @@ public class IndexCheckers {
         }
 
         @Override
-        public String getExceptionMessage(Index index) {
+        public String getExceptionMessage(Index index, CheckerContext ctx) {
             if (index == null) {
                 // Should never happen
                 return "The index is null, that shouldn't happen";

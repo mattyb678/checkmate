@@ -1,6 +1,7 @@
 package xyz.mattyb.checkmate.checker;
 
 import xyz.mattyb.checkmate.Range;
+import xyz.mattyb.checkmate.checker.context.CheckerContext;
 
 public class NumberCheckers {
 
@@ -10,7 +11,7 @@ public class NumberCheckers {
 
     public static Checker<Range<Integer>> intOutOfRange = new Checker<Range<Integer>>() {
         @Override
-        public boolean test(Range<Integer> range) {
+        public boolean test(Range<Integer> range, CheckerContext ctx) {
             if (range == null) {
                 return true;
             }
@@ -28,14 +29,14 @@ public class NumberCheckers {
         }
 
         @Override
-        public String getExceptionMessage(Range<Integer> range) {
+        public String getExceptionMessage(Range<Integer> range, CheckerContext ctx) {
             return buildMessage(range);
         }
     };
 
     public static Checker<Range<Long>> longOutOfRange = new Checker<Range<Long>>() {
         @Override
-        public boolean test(Range<Long> range) {
+        public boolean test(Range<Long> range, CheckerContext ctx) {
             if (range == null) {
                 return true;
             }
@@ -52,14 +53,14 @@ public class NumberCheckers {
         }
 
         @Override
-        public String getExceptionMessage(Range<Long> range) {
+        public String getExceptionMessage(Range<Long> range, CheckerContext ctx) {
             return buildMessage(range);
         }
     };
 
     public static Checker<Range<Double>> doubleOutOfRange = new Checker<Range<Double>>() {
         @Override
-        public boolean test(Range<Double> range) {
+        public boolean test(Range<Double> range, CheckerContext ctx) {
             if (range == null) {
                 return true;
             }
@@ -76,7 +77,7 @@ public class NumberCheckers {
         }
 
         @Override
-        public String getExceptionMessage(Range<Double> range) {
+        public String getExceptionMessage(Range<Double> range, CheckerContext ctx) {
             return buildMessage(range);
         }
     };

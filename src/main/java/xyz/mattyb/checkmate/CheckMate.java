@@ -4,6 +4,9 @@ import xyz.mattyb.checkmate.checker.IndexCheckers;
 import xyz.mattyb.checkmate.checker.NullCheckers;
 import xyz.mattyb.checkmate.checker.NotEmptyCheckers;
 import xyz.mattyb.checkmate.checker.NumberCheckers;
+import xyz.mattyb.checkmate.checker.context.CheckerContext;
+import xyz.mattyb.checkmate.checker.context.DefaultCheckerContext;
+import xyz.mattyb.checkmate.checker.context.NoOpCheckerContext;
 import xyz.mattyb.checkmate.checkmate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +31,10 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
     @SuppressWarnings("unchecked")
     public void validate() {
         for (Check<?> check : checks) {
-            if (check.getChecker().test(check.getToCheck())) {
+            final CheckerContext ctx = new DefaultCheckerContext();
+            if (check.getChecker().test(check.getToCheck(), ctx)) {
                 final String message = check.getMessage() == null ?
-                        check.getChecker().getExceptionMessage(check.getToCheck()) :
+                        check.getChecker().getExceptionMessage(check.getToCheck(), ctx) :
                         check.getMessage();
                 throw Objects.requireNonNull(create(check.getThrowableClass(), message));
             }
@@ -39,12 +43,14 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
 
     @SuppressWarnings("unchecked")
     public boolean anyInvalid() {
-        return checks.stream().anyMatch(check -> check.getChecker().test(check.getToCheck()));
+        final CheckerContext ctx = new NoOpCheckerContext();
+        return checks.stream().anyMatch(check -> check.getChecker().test(check.getToCheck(), ctx));
     }
 
     @SuppressWarnings("unchecked")
     public boolean allInvalid() {
-        return checks.stream().allMatch(check -> check.getChecker().test(check.getToCheck()));
+        final CheckerContext ctx = new NoOpCheckerContext();
+        return checks.stream().allMatch(check -> check.getChecker().test(check.getToCheck(), ctx));
     }
 
     public CheckMate withException(final Class<? extends RuntimeException> throwableClass) {
