@@ -41,6 +41,27 @@ boolean allInvalid = CheckMate.check()
     .allInvalid();
 ```
 
+CheckMate has the ability to validate indexes for Strings, Arrays, and Collections
+```java
+CheckMate.check()
+    .isIndex(3).validIn(Arrays.asList("one", "two", "three", "four", "five", "six"))
+    .validate();
+```
+
+You can also check if a number is in a range, by default start inclusive and end exclusive.
+```java
+CheckMate.check()
+    .intValue(7).between(5).and(100)
+    .validate();
+```
+
+But there is also a way to specify that the end should be inclusive
+```java
+CheckMate.check()
+    .intValue(100).between(5).and(100).inclusive()
+    .validate();
+```
+
 ### Installation
 The library is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22checkmate-core%22), simply add this to your `pom.xml`
 ```xml
