@@ -4,17 +4,15 @@ import xyz.mattyb.checkmate.checker.IndexCheckers;
 import xyz.mattyb.checkmate.checker.NullCheckers;
 import xyz.mattyb.checkmate.checker.NotEmptyCheckers;
 import xyz.mattyb.checkmate.checker.NumberCheckers;
-import xyz.mattyb.checkmate.checkmate.IndexCheckMate;
-import xyz.mattyb.checkmate.checkmate.IntRangeCheckMate;
-import xyz.mattyb.checkmate.checkmate.LongRangeCheckMate;
-import xyz.mattyb.checkmate.checkmate.NotEmptyCheckMate;
+import xyz.mattyb.checkmate.checkmate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRangeCheckMate, IndexCheckMate {
+public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRangeCheckMate, DoubleRangeCheckMate,
+        IndexCheckMate {
 
     private static final Logger log = LoggerFactory.getLogger(CheckMate.class);
     private final List<Check<?>> checks;
@@ -180,6 +178,28 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
     @SuppressWarnings("unchecked")
     public CheckMate and(Long endExclusive) {
         ((Range<Long>) last().getToCheck()).setEnd(endExclusive);
+        return this;
+    }
+
+    @Override
+    public DoubleRangeCheckMate doubleValue(Comparable<Double> value) {
+        final Range<Double> range = new Range<>();
+        range.setValue(value);
+        checks.add(new Check<>(range, NumberCheckers.doubleOutOfRange));
+        return this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public DoubleRangeCheckMate between(Double start) {
+        ((Range<Double>) last().getToCheck()).setStart(start);
+        return this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public CheckMate and(Double endExclusive) {
+        ((Range<Double>) last().getToCheck()).setEnd(endExclusive);
         return this;
     }
 

@@ -57,6 +57,30 @@ public class NumberCheckers {
         }
     };
 
+    public static Checker<Range<Double>> doubleOutOfRange = new Checker<Range<Double>>() {
+        @Override
+        public boolean test(Range<Double> range) {
+            if (range == null) {
+                return true;
+            }
+            final Comparable<Double> val = range.getValue();
+            if (val == null) {
+                return true;
+            }
+            Integer end = range.isInclusive() ? 0 : -1;
+            if (val.compareTo(range.getStart()) >= 0 &&
+                    val.compareTo(range.getEnd()) <= end) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public String getExceptionMessage(Range<Double> range) {
+            return buildMessage(range);
+        }
+    };
+
     private static String buildMessage(Range range) {
         if (range == null) {
             return "Not in range";

@@ -167,6 +167,26 @@ class CheckMateTest {
     }
 
     @Test
+    public void testDoubleRange() {
+        CheckMate.check()
+                .doubleValue(20.0).between(10.0).and(40.0)
+                .validate();
+    }
+
+    @Test
+    public void testDoubleRange_OutOfRange() {
+        try {
+            CheckMate.check()
+                    .doubleValue(2.0).between(5.0).and(100.0)
+                    .validate();
+            fail("Should never get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(IllegalArgumentException.class))));
+            assertThat(ex.getMessage(), is("2.0 is not between 5.0 and 100.0, exclusive"));
+        }
+    }
+
+    @Test
     public void testLongRange() {
         CheckMate.check()
                 .longValue(1776L).between(711L).and(2000L)
