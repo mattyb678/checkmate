@@ -221,6 +221,13 @@ class CheckMateTest {
     }
 
     @Test
+    public void testNotEmptyArray_Null() {
+        assertThrows(IllegalArgumentException.class, () -> CheckMate.check()
+                .notEmpty((Object[]) null)
+                .validate());
+    }
+
+    @Test
     public void testNotEmptyArray_Empty() {
         assertThrows(IllegalArgumentException.class, () -> CheckMate.check()
                 .notEmpty(new String[]{})
