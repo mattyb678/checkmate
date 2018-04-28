@@ -40,3 +40,13 @@ boolean allInvalid = CheckMate.check()
     .notEmpty(someString)
     .allInvalid();
 ```
+
+### Installation
+The library is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22checkmate-core%22), simply add this to your `pom.xml`
+```xml
+<dependency>
+    <groupId>xyz.mattyb</groupId>
+    <artifactId>checkmate-core</artifactId>
+    <version>0.0.2</version>
+</dependency>
+```
