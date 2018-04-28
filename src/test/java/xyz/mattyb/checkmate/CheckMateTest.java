@@ -2,6 +2,7 @@ package xyz.mattyb.checkmate;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -211,6 +212,22 @@ class CheckMateTest {
         CheckMate.check()
                 .notEmpty(new String[]{"Hello", "World"})
                 .validate();
+    }
+
+    @Test
+    public void testValidIndex_Valid() {
+        CheckMate.check()
+                .isIndex(1).validIn("hello")
+                .validate();
+
+        CheckMate.check()
+                .isIndex(3).validIn(Arrays.asList("bigger", "list", "three", "four", "five", "six"))
+                .validate();
+    }
+
+    @Test
+    public void testValidIndex_Invalid() {
+        assertThrows(IllegalArgumentException.class, () -> CheckMate.check().isIndex(10).validIn(new String[]{"hi"}).validate());
     }
 
     @Test
