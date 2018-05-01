@@ -19,13 +19,19 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
 
     private static final Logger log = LoggerFactory.getLogger(CheckMate.class);
     private final List<Check<?>> checks;
+    private final Class<? extends RuntimeException> defaultException;
 
-    private CheckMate() {
+    private CheckMate(final Class<? extends RuntimeException> defaultException) {
         checks = new ArrayList<>();
+        this.defaultException = defaultException;
     }
 
     public static CheckMate check() {
-        return new CheckMate();
+        return new CheckMate(IllegalArgumentException.class);
+    }
+
+    public static CheckMate checkWithDefault(final Class<? extends RuntimeException> defaultException) {
+        return new CheckMate(defaultException);
     }
 
     @SuppressWarnings("unchecked")
@@ -222,7 +228,11 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
     private RuntimeException create(final Class<? extends RuntimeException> throwableClass,
                                     final String message) {
         try {
-            return throwableClass.getConstructor(String.class).newInstance(message);
+            if (throwableClass == null) {
+                return defaultException.getConstructor(String.class).newInstance(message);
+            } else {
+                return throwableClass.getConstructor(String.class).newInstance(message);
+            }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
                 | InstantiationException e) {
             log.error("Error instantiating exception", e);

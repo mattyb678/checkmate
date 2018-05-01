@@ -12,7 +12,7 @@ class Check<T> {
     Check(final T toCheck, final Checker checker) {
         this.checker = checker;
         this.toCheck = toCheck;
-        this.throwableClass = IllegalArgumentException.class;
+        this.throwableClass = null;
     }
 
     void setThrowableClass(Class<? extends RuntimeException> throwableClass) {

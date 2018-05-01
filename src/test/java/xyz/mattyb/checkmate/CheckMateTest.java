@@ -2,9 +2,7 @@ package xyz.mattyb.checkmate;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,6 +12,28 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class CheckMateTest {
+
+    @Test
+    public void testWithDefaultException() {
+        assertThrows(SomeAppSpecificException.class, () -> CheckMate.checkWithDefault(SomeAppSpecificException.class)
+                .notBlank("  ")
+                .validate());
+    }
+
+    @Test
+    public void testWithDefaultException_Override() {
+        assertThrows(IllformedLocaleException.class, () -> CheckMate.checkWithDefault(SomeAppSpecificException.class)
+                .notBlank("  ").withException(IllformedLocaleException.class)
+                .validate());
+    }
+
+    @Test
+    public void testWithDefaultException_OverrideNotFail() {
+        assertThrows(SomeAppSpecificException.class, () -> CheckMate.checkWithDefault(SomeAppSpecificException.class)
+                .notEmpty(Collections.emptyMap())
+                .notBlank(" s ").withException(IllformedLocaleException.class)
+                .validate());
+    }
 
     @Test
     public void testWithException() {
