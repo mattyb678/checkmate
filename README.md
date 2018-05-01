@@ -32,7 +32,7 @@ Overridden exceptions take priority over the default exception.
 ```java
 CheckMate.checkWithDefault(SomeAppSpecificException.class)
     .notEmpty(map)
-    .notBlank(str).withException(SomeAppSpecificException.class)
+    .notBlank(str).withException(OtherAppException.class)
     .validate()
 ```
 The message in the exception can also be changed.
