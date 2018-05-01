@@ -14,16 +14,32 @@ CheckMate.check()
     .notEmpty("")
     .validate();
 ```
-This, however, can be replaced with any RuntimeException, that has a constructor that takes a String.
+You can also specify what the default exception should be, it must be a RuntimeException, that has a constructor that takes a String.
+```java
+CheckMate.checkWithDefault(SomeAppSpecificException.class)
+    .notEmpty(map)
+    .notBlank(str)
+    .validate()
+```
+An exception can be overridden on a check by check basis.
 ```java
 CheckMate.check()
     .notNull(object).withException(SomeAppSpecificException.class)
+    .notEmpty(map).withException(OtherAppException.class)
     .validate();
+```
+Overridden exceptions take priority over the default exception.
+```java
+CheckMate.checkWithDefault(SomeAppSpecificException.class)
+    .notEmpty(map)
+    .notBlank(str).withException(SomeAppSpecificException.class)
+    .validate()
 ```
 The message in the exception can also be changed.
 ```java
 CheckMate.check()
     .notEmpty(map).withMessage("The map should not be empty")
+    .notBlank(str)
     .validate();
 ```
 Sometimes, though, you don't want to throw an exception.
