@@ -6,7 +6,7 @@
 
     <groupId>xyz.mattyb</groupId>
     <artifactId>checkmate-core</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>CheckMate</name>
     <url>https://github.com/mattyb678/checkmate</url>
