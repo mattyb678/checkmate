@@ -92,6 +92,6 @@ The library is available at [Maven Central](https://search.maven.org/#search%7Cg
 <dependency>
     <groupId>xyz.mattyb</groupId>
     <artifactId>checkmate-core</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 </dependency>
 ```
