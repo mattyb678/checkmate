@@ -291,4 +291,60 @@ class CheckMateTest {
     public void testNotBlank_NotBlank() {
         CheckMate.check().notBlank("     not   ").validate();
     }
+
+    @Test
+    public void testIsTruthy_BooleanTrue() {
+        CheckMate.check()
+            .is(100 > 19).truthy().withException(SomeAppSpecificException.class)
+            .validate();
+    }
+
+    @Test
+    public void testIsTruthy_BooleanFalse() {
+        assertThrows(SomeAppSpecificException.class, () -> CheckMate.check()
+            .is(10 > 19).truthy().withException(SomeAppSpecificException.class)
+            .validate());
+    }
+
+    @Test
+    public void testIsFalsy_BooleanTrue() {
+        assertThrows(SomeAppSpecificException.class, () -> CheckMate.check()
+                .is(100 > 19).falsy().withException(SomeAppSpecificException.class)
+                .validate());
+    }
+
+    @Test
+    public void testIsFalsy_BooleanFalse() {
+        CheckMate.check()
+            .is(10 > 19).falsy().withException(SomeAppSpecificException.class)
+            .validate();
+    }
+
+    @Test
+    public void testIsTruthy_SupplierTrue() {
+        CheckMate.check()
+            .is(() -> "Matt".length() == 4).truthy().withException(SomeAppSpecificException.class)
+            .validate();
+    }
+
+    @Test
+    public void testIsTruthy_SupplierFalse() {
+        assertThrows(SomeAppSpecificException.class, () -> CheckMate.check()
+            .is(() -> "Matt".length() == 5).truthy().withException(SomeAppSpecificException.class)
+            .validate());
+    }
+
+    @Test
+    public void testIsFalsy_SupplierTrue() {
+        assertThrows(SomeAppSpecificException.class, () -> CheckMate.check()
+            .is(() -> "Matt".length() == 4).falsy().withException(SomeAppSpecificException.class)
+            .validate());
+    }
+
+    @Test
+    public void testIsFalsy_SupplierFalse() {
+        CheckMate.check()
+            .is(() -> "Matt".length() == 5).falsy().withException(SomeAppSpecificException.class)
+            .validate();
+    }
 }

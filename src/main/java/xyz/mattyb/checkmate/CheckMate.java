@@ -1,9 +1,6 @@
 package xyz.mattyb.checkmate;
 
-import xyz.mattyb.checkmate.checker.IndexCheckers;
-import xyz.mattyb.checkmate.checker.NullCheckers;
-import xyz.mattyb.checkmate.checker.NotEmptyCheckers;
-import xyz.mattyb.checkmate.checker.NumberCheckers;
+import xyz.mattyb.checkmate.checker.*;
 import xyz.mattyb.checkmate.checker.context.CheckerContext;
 import xyz.mattyb.checkmate.checker.context.DefaultCheckerContext;
 import xyz.mattyb.checkmate.checker.context.NoOpCheckerContext;
@@ -13,11 +10,13 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.Supplier;
 
 public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRangeCheckMate, DoubleRangeCheckMate,
-        IndexCheckMate {
+        IndexCheckMate, BooleanCheckMate {
 
     private static final Logger log = LoggerFactory.getLogger(CheckMate.class);
+    private static final CheckerContext NO_OP = new NoOpCheckerContext();
     private final List<Check<?>> checks;
     private final Class<? extends RuntimeException> defaultException;
 
@@ -49,14 +48,12 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
 
     @SuppressWarnings("unchecked")
     public boolean anyInvalid() {
-        final CheckerContext ctx = new NoOpCheckerContext();
-        return checks.stream().anyMatch(check -> check.getChecker().test(check.getToCheck(), ctx));
+        return checks.stream().anyMatch(check -> check.getChecker().test(check.getToCheck(), NO_OP));
     }
 
     @SuppressWarnings("unchecked")
     public boolean allInvalid() {
-        final CheckerContext ctx = new NoOpCheckerContext();
-        return checks.stream().allMatch(check -> check.getChecker().test(check.getToCheck(), ctx));
+        return checks.stream().allMatch(check -> check.getChecker().test(check.getToCheck(), NO_OP));
     }
 
     public CheckMate withException(final Class<? extends RuntimeException> throwableClass) {
@@ -112,6 +109,34 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
 
     public <T extends Iterable<?>> CheckMate noNullElements(T collection) {
         checks.add(new Check<>(collection, NullCheckers.noNullElementsIterable));
+        return this;
+    }
+
+    @Override
+    public BooleanCheckMate is(boolean expression) {
+        BooleanCheck booleanCheck = new BooleanCheck();
+        booleanCheck.setSupplier(() -> expression);
+        checks.add(new Check<>(booleanCheck, BooleanCheckers.isBoolean));
+        return this;
+    }
+
+    @Override
+    public BooleanCheckMate is(Supplier<Boolean> supplier) {
+        BooleanCheck booleanCheck = new BooleanCheck();
+        booleanCheck.setSupplier(supplier);
+        checks.add(new Check<>(booleanCheck, BooleanCheckers.isBoolean));
+        return this;
+    }
+
+    @Override
+    public CheckMate truthy() {
+        ((BooleanCheck) last().getToCheck()).setExpected(true);
+        return this;
+    }
+
+    @Override
+    public CheckMate falsy() {
+        ((BooleanCheck) last().getToCheck()).setExpected(false);
         return this;
     }
 

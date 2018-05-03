@@ -78,6 +78,14 @@ CheckMate.check()
     .validate();
 ```
 
+You can also check if an expression is true or false
+```java
+CheckMate.check()
+    .is(value > 0).truthy()
+    .is(length == 0).falsy()
+    .validate();
+```
+
 ### Installation
 The library is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22checkmate-core%22), simply add this to your `pom.xml`
 ```xml
