@@ -19,18 +19,28 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
     private static final CheckerContext NO_OP = new NoOpCheckerContext();
     private final List<Check<?>> checks;
     private final Class<? extends RuntimeException> defaultException;
+    private final boolean throwNpe;
 
-    private CheckMate(final Class<? extends RuntimeException> defaultException) {
+    private CheckMate(final Class<? extends RuntimeException> defaultException, Option option) {
         checks = new ArrayList<>();
         this.defaultException = defaultException;
+        if (Option.THROW_NPE.equals(option)) {
+            throwNpe = true;
+        } else {
+            throwNpe = false;
+        }
     }
 
     public static CheckMate check() {
-        return new CheckMate(IllegalArgumentException.class);
+        return new CheckMate(IllegalArgumentException.class, Option.NONE);
+    }
+
+    public static CheckMate check(final Option option) {
+        return new CheckMate(IllegalArgumentException.class, option);
     }
 
     public static CheckMate checkWithDefault(final Class<? extends RuntimeException> defaultException) {
-        return new CheckMate(defaultException);
+        return new CheckMate(defaultException, Option.NONE);
     }
 
     @SuppressWarnings("unchecked")
@@ -41,7 +51,13 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
                 final String message = check.getMessage() == null ?
                         check.getChecker().getExceptionMessage(check.getToCheck(), ctx) :
                         check.getMessage();
-                throw Objects.requireNonNull(create(check.getThrowableClass(), message));
+                Class<? extends RuntimeException> throwableClass;
+                if (throwNpe && ctx.isNpe()) {
+                    throwableClass = NullPointerException.class;
+                } else {
+                    throwableClass = check.getThrowableClass();
+                }
+                throw Objects.requireNonNull(create(throwableClass, message));
             }
         }
     }
@@ -280,5 +296,9 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
 
     private Check<?> last() {
         return checks.get(checks.size() - 1);
+    }
+
+    enum Option {
+        THROW_NPE, NONE
     }
 }

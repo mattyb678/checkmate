@@ -14,7 +14,11 @@ public class NullCheckers {
     public static Checker<Object> notNull = new Checker<Object>() {
         @Override
         public boolean test(Object object, CheckerContext ctx) {
-            return Objects.isNull(object);
+            if (Objects.isNull(object)) {
+                ctx.setNpe(true);
+                return true;
+            }
+            return false;
         }
 
         @Override
@@ -26,7 +30,8 @@ public class NullCheckers {
     public static Checker<Object[]> noNullElementsArray = new Checker<Object[]>() {
         @Override
         public boolean test(Object[] array, CheckerContext ctx) {
-            if (array == null || array.length == 0) {
+            if (array == null) {
+                ctx.setNpe(true);
                 return true;
             }
             for (int i = 0; i < array.length; i++) {
@@ -34,7 +39,7 @@ public class NullCheckers {
                     return true;
                 }
             }
-            return false;
+            return array.length == 0;
         }
 
         @Override

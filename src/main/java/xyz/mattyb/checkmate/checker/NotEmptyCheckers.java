@@ -14,7 +14,11 @@ public class NotEmptyCheckers {
     public static Checker<Collection<?>> collection = new Checker<Collection<?>>() {
         @Override
         public boolean test(Collection<?> coll, CheckerContext ctx) {
-            return coll == null ||  coll.isEmpty();
+            if (coll == null) {
+                ctx.setNpe(true);
+                return true;
+            }
+            return coll.isEmpty();
         }
 
         @Override
@@ -26,10 +30,11 @@ public class NotEmptyCheckers {
     public static Checker<CharSequence> charSequence = new Checker<CharSequence>() {
         @Override
         public boolean test(CharSequence chars, CheckerContext ctx) {
-            if (chars == null || chars.length() == 0) {
+            if (chars == null) {
+                ctx.setNpe(true);
                 return true;
             }
-            return false;
+            return chars.length() == 0;
         }
 
         @Override
@@ -41,7 +46,11 @@ public class NotEmptyCheckers {
     public static Checker<CharSequence> charSequenceNotBlank = new Checker<CharSequence>() {
         @Override
         public boolean test(CharSequence chars, CheckerContext ctx) {
-            if (chars == null || chars.length() == 0) {
+            if (chars == null) {
+                ctx.setNpe(true);
+                return true;
+            }
+            if (chars.length() == 0) {
                 return true;
             }
             for (int i = 0; i < chars.length(); i++) {
@@ -62,6 +71,7 @@ public class NotEmptyCheckers {
         @Override
         public boolean test(Object[] array, CheckerContext ctx) {
             if (array == null) {
+                ctx.setNpe(true);
                 return true;
             }
             if (array.length == 0) {
@@ -80,12 +90,10 @@ public class NotEmptyCheckers {
         @Override
         public boolean test(Map<?, ?> map, CheckerContext ctx) {
             if (map == null) {
+                ctx.setNpe(true);
                 return true;
             }
-            if (map.isEmpty()) {
-                return true;
-            }
-            return false;
+            return map.isEmpty();
         }
 
         @Override

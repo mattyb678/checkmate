@@ -12,6 +12,11 @@ public class BooleanCheckers {
     public static Checker<BooleanCheck> isBoolean = new Checker<BooleanCheck>() {
         @Override
         public boolean test(BooleanCheck expression, CheckerContext ctx) {
+            if (expression.getExpected() == null || expression.getSupplier() == null
+                    || expression.getSupplier().get() == null) {
+                ctx.setNpe(true);
+                return true;
+            }
             return expression.getExpected() != expression.getSupplier().get();
         }
 

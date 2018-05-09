@@ -13,6 +13,7 @@ public class IndexCheckers {
         @Override
         public boolean test(Index index, CheckerContext ctx) {
             if (index == null || index.isNull()) {
+                ctx.setNpe(true);
                 return true;
             }
 
@@ -21,7 +22,7 @@ public class IndexCheckers {
 
         @Override
         public String getExceptionMessage(Index index, CheckerContext ctx) {
-            if (index == null) {
+            if (ctx.isNpe()) {
                 // Should never happen
                 return "The index is null, that shouldn't happen";
             }

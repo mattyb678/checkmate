@@ -49,6 +49,19 @@ class CheckMateTest {
     }
 
     @Test
+    public void testThrowNpe_WithException() {
+        try {
+            CheckMate.check(CheckMate.Option.THROW_NPE)
+                    .notNull(null).withException(SomeAppSpecificException.class)
+                    .validate();
+            fail("Should not get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(NullPointerException.class))));
+            assertThat(ex.getMessage(), is("The validated object is null"));
+        }
+    }
+
+    @Test
     public void testWithMessage() {
         try {
             CheckMate.check()
@@ -207,6 +220,32 @@ class CheckMateTest {
     }
 
     @Test
+    public void testDoubleRange_Null() {
+        try {
+            CheckMate.check()
+                    .doubleValue(2.0).between(null).and(100.0)
+                    .validate();
+            fail("Should never get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(IllegalArgumentException.class))));
+            assertThat(ex.getMessage(), is("2.0 is not between null and 100.0, exclusive"));
+        }
+    }
+
+    @Test
+    public void testDoubleRange_NullThrowNpe() {
+        try {
+            CheckMate.check(CheckMate.Option.THROW_NPE)
+                    .doubleValue(2.0).between(null).and(100.0)
+                    .validate();
+            fail("Should never get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(NullPointerException.class))));
+            assertThat(ex.getMessage(), is("2.0 is not between null and 100.0, exclusive"));
+        }
+    }
+
+    @Test
     public void testLongRange() {
         CheckMate.check()
                 .longValue(1776L).between(711L).and(2000L)
@@ -227,6 +266,32 @@ class CheckMateTest {
     }
 
     @Test
+    public void testLongRange_Null() {
+        try {
+            CheckMate.check()
+                    .longValue(2018L).between(711L).and(null).inclusive()
+                    .validate();
+            fail("Should never get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(IllegalArgumentException.class))));
+            assertThat(ex.getMessage(), is("2018 is not between 711 and null, inclusive"));
+        }
+    }
+
+    @Test
+    public void testLongRange_NullThrowNpe() {
+        try {
+            CheckMate.check(CheckMate.Option.THROW_NPE)
+                    .longValue(2018L).between(711L).and(null).inclusive()
+                    .validate();
+            fail("Should never get here");
+        } catch (Exception ex) {
+            assertThat(ex, is((instanceOf(NullPointerException.class))));
+            assertThat(ex.getMessage(), is("2018 is not between 711 and null, inclusive"));
+        }
+    }
+
+    @Test
     public void testNoNullElementsArray() {
         final String[] array = new String[]{"Hello", "Not", null, "fourth"};
         assertThrows(IllegalArgumentException.class, () -> CheckMate.check()
@@ -243,6 +308,13 @@ class CheckMateTest {
     @Test
     public void testNotEmptyArray_Null() {
         assertThrows(IllegalArgumentException.class, () -> CheckMate.check()
+                .notEmpty((Object[]) null)
+                .validate());
+    }
+
+    @Test
+    public void testNotEmptyArray_NullThrowNpe() {
+        assertThrows(NullPointerException.class, () -> CheckMate.check(CheckMate.Option.THROW_NPE)
                 .notEmpty((Object[]) null)
                 .validate());
     }
@@ -363,6 +435,13 @@ class CheckMateTest {
     }
 
     @Test
+    public void testInstanceOf_NullExceptionThrowNpe() {
+        assertThrows(NullPointerException.class, () -> CheckMate.check(CheckMate.Option.THROW_NPE)
+                .object(null).isInstanceOf(Number.class).withException(SomeAppSpecificException.class)
+                .validate());
+    }
+
+    @Test
     public void testInstanceOf_NullInstance() {
         assertThrows(SomeAppSpecificException.class, () -> CheckMate.check()
                 .object("yo").isInstanceOf(null).withException(SomeAppSpecificException.class)
@@ -370,8 +449,22 @@ class CheckMateTest {
     }
 
     @Test
+    public void testInstanceOf_NullInstanceThrowNpe() {
+        assertThrows(NullPointerException.class, () -> CheckMate.check(CheckMate.Option.THROW_NPE)
+                .object("yo").isInstanceOf(null).withException(SomeAppSpecificException.class)
+                .validate());
+    }
+
+    @Test
     public void testInstanceOf() {
         CheckMate.check()
+                .object("yo").isInstanceOf(String.class).withException(SomeAppSpecificException.class)
+                .validate();
+    }
+
+    @Test
+    public void testInstanceOf_ThrowNpe() {
+        CheckMate.check(CheckMate.Option.THROW_NPE)
                 .object("yo").isInstanceOf(String.class).withException(SomeAppSpecificException.class)
                 .validate();
     }

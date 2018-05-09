@@ -13,11 +13,13 @@ public class NumberCheckers {
         @Override
         public boolean test(Range<Integer> range, CheckerContext ctx) {
             if (range == null) {
+                ctx.setNpe(true);
                 return true;
             }
 
             final Comparable<Integer> val = range.getValue();
             if (val == null) {
+                ctx.setNpe(true);
                 return true;
             }
             Integer end = range.isInclusive() ? 0 : -1;
@@ -38,12 +40,19 @@ public class NumberCheckers {
         @Override
         public boolean test(Range<Long> range, CheckerContext ctx) {
             if (range == null) {
+                ctx.setNpe(true);
                 return true;
             }
             final Comparable<Long> val = range.getValue();
             if (val == null) {
+                ctx.setNpe(true);
                 return true;
             }
+            if (range.getStart() == null || range.getEnd() == null) {
+                ctx.setNpe(true);
+                return true;
+            }
+
             Integer end = range.isInclusive() ? 0 : -1;
             if (val.compareTo(range.getStart()) >= 0 &&
                     val.compareTo(range.getEnd()) <= end) {
@@ -62,12 +71,19 @@ public class NumberCheckers {
         @Override
         public boolean test(Range<Double> range, CheckerContext ctx) {
             if (range == null) {
+                ctx.setNpe(true);
                 return true;
             }
             final Comparable<Double> val = range.getValue();
             if (val == null) {
+                ctx.setNpe(true);
                 return true;
             }
+            if (range.getStart() == null || range.getEnd() == null) {
+                ctx.setNpe(true);
+                return true;
+            }
+
             Integer end = range.isInclusive() ? 0 : -1;
             if (val.compareTo(range.getStart()) >= 0 &&
                     val.compareTo(range.getEnd()) <= end) {

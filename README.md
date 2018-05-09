@@ -19,7 +19,7 @@ You can also specify what the default exception should be, it must be a RuntimeE
 CheckMate.checkWithDefault(SomeAppSpecificException.class)
     .notEmpty(map)
     .notBlank(str)
-    .validate()
+    .validate();
 ```
 An exception can be overridden on a check by check basis.
 ```java
@@ -85,6 +85,16 @@ CheckMate.check()
     .is(length == 0).falsy()
     .validate();
 ```
+
+"But what if I liked how commons-lang Validate throws NullPointerExceptions when things are null?"
+Fear not, CheckMate supports that!!
+```java
+CheckMate.check(CheckMate.Option.THROW_NPE)
+    .notEmpty(null)
+    .notBlank(str)
+    .validate();
+```
+This will throw an NPE, instead of an IllegalArgumentException.
 
 ### Installation
 The library is available at [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22checkmate-core%22), simply add this to your `pom.xml`

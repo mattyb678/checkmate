@@ -10,8 +10,7 @@ import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.*;
 
 class IndexCheckersTest {
 
@@ -25,6 +24,8 @@ class IndexCheckersTest {
     @Test
     public void testIndex_NullIndex() {
         assertThat(IndexCheckers.indexChecker.test(null, ctx), is(true));
+        verify(ctx).setNpe(true);
+        when(ctx.isNpe()).thenReturn(true);
         assertThat(IndexCheckers.indexChecker.getExceptionMessage(null, ctx), is("The index is null, that shouldn't happen"));
     }
 
@@ -35,6 +36,7 @@ class IndexCheckersTest {
         index.calcSize((Object[]) null);
 
         assertThat(IndexCheckers.indexChecker.test(index, ctx), is(true));
+        verify(ctx).setNpe(true);
         assertThat(IndexCheckers.indexChecker.getExceptionMessage(index, ctx), is("The validated array index is invalid: 5"));
     }
 
@@ -45,6 +47,7 @@ class IndexCheckersTest {
         index.calcSize((String) null);
 
         assertThat(IndexCheckers.indexChecker.test(index, ctx), is(true));
+        verify(ctx).setNpe(true);
         assertThat(IndexCheckers.indexChecker.getExceptionMessage(index, ctx), is("The validated character sequence index is invalid: 5"));
     }
 
@@ -55,6 +58,7 @@ class IndexCheckersTest {
         index.calcSize((Collection<?>) null);
 
         assertThat(IndexCheckers.indexChecker.test(index, ctx), is(true));
+        verify(ctx).setNpe(true);
         assertThat(IndexCheckers.indexChecker.getExceptionMessage(index, ctx), is("The validated collection index is invalid: 5"));
     }
 
@@ -70,6 +74,9 @@ class IndexCheckersTest {
         index.setIndex(-1);
         assertThat(IndexCheckers.indexChecker.test(index, ctx), is(true));
         assertThat(IndexCheckers.indexChecker.getExceptionMessage(index, ctx), is("The validated array index is invalid: -1"));
+
+        verify(ctx, times(0)).setNpe(anyBoolean());
+        verify(ctx, times(2)).isNpe();
     }
 
     @Test
@@ -84,6 +91,9 @@ class IndexCheckersTest {
         index.setIndex(-1);
         assertThat(IndexCheckers.indexChecker.test(index, ctx), is(true));
         assertThat(IndexCheckers.indexChecker.getExceptionMessage(index, ctx), is("The validated character sequence index is invalid: -1"));
+
+        verify(ctx, times(0)).setNpe(anyBoolean());
+        verify(ctx, times(2)).isNpe();
     }
 
     @Test
@@ -98,6 +108,9 @@ class IndexCheckersTest {
         index.setIndex(-1);
         assertThat(IndexCheckers.indexChecker.test(index, ctx), is(true));
         assertThat(IndexCheckers.indexChecker.getExceptionMessage(index, ctx), is("The validated collection index is invalid: -1"));
+
+        verify(ctx, times(0)).setNpe(anyBoolean());
+        verify(ctx, times(2)).isNpe();
     }
 
     @Test
@@ -107,6 +120,8 @@ class IndexCheckersTest {
         index.calcSize(new String[]{"bigger", "Array", "three", "four", "five", "six"});
 
         assertThat(IndexCheckers.indexChecker.test(index, ctx), is(false));
+
+        verifyZeroInteractions(ctx);
     }
 
     @Test
@@ -116,6 +131,8 @@ class IndexCheckersTest {
         index.calcSize("Hello World");
 
         assertThat(IndexCheckers.indexChecker.test(index, ctx), is(false));
+
+        verifyZeroInteractions(ctx);
     }
 
     @Test
@@ -125,5 +142,7 @@ class IndexCheckersTest {
         index.calcSize(Arrays.asList("bigger", "list", "three", "four", "five", "six"));
 
         assertThat(IndexCheckers.indexChecker.test(index, ctx), is(false));
+
+        verifyZeroInteractions(ctx);
     }
 }
