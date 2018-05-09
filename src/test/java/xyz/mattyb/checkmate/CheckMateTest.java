@@ -347,4 +347,32 @@ class CheckMateTest {
             .is(() -> "Matt".length() == 5).falsy().withException(SomeAppSpecificException.class)
             .validate();
     }
+
+    @Test
+    public void testInstanceOf_Exception() {
+        assertThrows(SomeAppSpecificException.class, () -> CheckMate.check()
+                .object("yo").isInstanceOf(Number.class).withException(SomeAppSpecificException.class)
+                .validate());
+    }
+
+    @Test
+    public void testInstanceOf_NullException() {
+        assertThrows(SomeAppSpecificException.class, () -> CheckMate.check()
+                .object(null).isInstanceOf(Number.class).withException(SomeAppSpecificException.class)
+                .validate());
+    }
+
+    @Test
+    public void testInstanceOf_NullInstance() {
+        assertThrows(SomeAppSpecificException.class, () -> CheckMate.check()
+                .object("yo").isInstanceOf(null).withException(SomeAppSpecificException.class)
+                .validate());
+    }
+
+    @Test
+    public void testInstanceOf() {
+        CheckMate.check()
+                .object("yo").isInstanceOf(String.class).withException(SomeAppSpecificException.class)
+                .validate();
+    }
 }

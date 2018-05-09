@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRangeCheckMate, DoubleRangeCheckMate,
-        IndexCheckMate, BooleanCheckMate {
+        IndexCheckMate, BooleanCheckMate, InstanceCheckMate {
 
     private static final Logger log = LoggerFactory.getLogger(CheckMate.class);
     private static final CheckerContext NO_OP = new NoOpCheckerContext();
@@ -162,6 +162,19 @@ public class CheckMate implements NotEmptyCheckMate, IntRangeCheckMate, LongRang
     @Override
     public <T extends CharSequence> CheckMate validIn(T chars) {
         ((Index) last().getToCheck()).calcSize(chars);
+        return this;
+    }
+
+    @Override
+    public <T> InstanceCheckMate object(T obj) {
+        InstanceCheck check = new InstanceCheck(obj);
+        checks.add(new Check<>(check, TypeCheckers.instanceOf));
+        return this;
+    }
+
+    @Override
+    public CheckMate isInstanceOf(Class<?> clazz) {
+        ((InstanceCheck) last().getToCheck()).setClazz(clazz);
         return this;
     }
 
